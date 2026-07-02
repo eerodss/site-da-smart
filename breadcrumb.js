@@ -3,7 +3,7 @@ function criarBreadcrumb(){
 
     if(!breadcrumb) return;
     let html = `
-        <a href="./index.html">Início</a>
+        <a href="index.html">Início</a>
     `;
 
     // Página catálogo
