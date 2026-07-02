@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.innerHTML += criarCardProduto(produto);
     });
 
+    const breadcrumb = document.querySelector("#breadcrumb");
+if (breadcrumb) {
+    breadcrumb.innerHTML = `
+        <a href="./index.html">Início</a>
+        <span>›</span>
+        <span>Catálogo</span>
+    `;
+}
         });
 
         // pesquisa de produtos/categorias

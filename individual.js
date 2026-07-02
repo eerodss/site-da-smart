@@ -9,6 +9,30 @@ const produto =
     produtos.find(p => String(p.id) === id);
 window.produtoAtual = produto;
 
+const nomesCategorias = {
+    peliculas: "Películas",
+    maquinas: "Máquinas",
+    acessorios: "Acessórios",
+    limpeza: "Limpeza"
+};
+
+    // breadcrumb
+const breadcrumb = document.querySelector("#breadcrumb");
+
+if (breadcrumb) {
+    breadcrumb.innerHTML = `
+        <a href="./index.html">Início</a>
+        <span>›</span>
+        <a href="produtos.html">Catálogo</a>
+        <span>›</span>
+        <a href="produtos.html?categoria=${produto.categoria}">
+            ${nomesCategorias[produto.categoria]}
+        </a>
+        <span>›</span>
+        <span>${produto.nome}</span>
+    `;
+}
+
     if(!produto){
     console.error("Produto não encontrado");
     return;
@@ -39,6 +63,8 @@ const container =
         <p class="subtitle">${produto.subtitulo}</p>
         <button onclick="window.open('${whatsappLink}','_blank')">Ver Disponibilidade</button>
     </div>
+
+    
 </section>
 
 <section class="features">
@@ -84,7 +110,51 @@ const container =
 </section>
 `;
 
+    // dropdown
+const dropdownLinks =
+    document.querySelectorAll(".dropdown-filter");
+    dropdownLinks.forEach(link => { 
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
 
+const filter = 
+    link.dataset.filter;
+const estaNaPaginaProdutos =
+    document.querySelector(".products-page");
+    if(estaNaPaginaProdutos){
+        filtrarProdutos(filter);
+        document
+        .querySelector("#produtos")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+    } else{
+        window.location.href =
+        `produtos.html?categoria=${filter}`;
+    }
+        }); 
+    });
+    
+    // voltar pro topo
+
+    const backToTop = document.querySelector("#backToTop");
+window.addEventListener("scroll", () => {
+    if(window.scrollY > 500){
+        backToTop.classList.add("show");
+    }else{
+        backToTop.classList.remove("show");
+    }
+});
+
+backToTop.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+});
+
+            // animação das barras de estatísticas
 const statsSection = container.querySelector(".comparison");
 const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
@@ -128,35 +198,12 @@ const observer = new IntersectionObserver((entries, obs) => {
 
 observer.observe(statsSection);
 
-        // dropdown
-const dropdownLinks =
-    document.querySelectorAll(".dropdown-filter");
-    dropdownLinks.forEach(link => { 
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-
-const filter = 
-    link.dataset.filter;
-const estaNaPaginaProdutos =
-    document.querySelector(".products-page");
-    if(estaNaPaginaProdutos){
-        filtrarProdutos(filter);
-        document
-        .querySelector("#produtos")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-    } else{
-        window.location.href =
-        `produtos.html?categoria=${filter}`;
-    }
-        }); 
-    });
-
 
     // identificar os produtos relacionados
+const categoriasRelacionadas =
+    produto.relacionadosCategorias || [produto.categoria];
 const relacionados = produtos.filter(p =>
-        p.categoria === produto.categoria &&
+        categoriasRelacionadas.includes(p.categoria) &&
         p.id !== produto.id
     )
     .sort(() => Math.random() - 0.5)

@@ -13,6 +13,33 @@ html{
     scroll-behavior:smooth;
 }
 
+.breadcrumb{
+    width:90%;
+    margin:10px 10px 8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:35px;
+}
+
+.breadcrumb a{
+    color:#8a8a8a;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.breadcrumb a:hover{
+    color:#FF4E00;
+}
+
+.breadcrumb span{
+    color:#fff;
+}
+
+.breadcrumb span:not(:last-child){
+    color:#666;
+}
+
 /** whatsapp CTA **/
 
 .whatsapp-float{
